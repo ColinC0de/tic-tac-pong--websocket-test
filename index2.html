@@ -41,6 +41,7 @@
       <p id="winning-message">You Win!</p>
       <div class="ball" id="ball"></div>
       <div class="ball2" id="ball2"></div>
+      <script type="module" src="lib/ui.js"></script>
     <script>
       let clientId = null;
       let gameId = null;
@@ -121,26 +122,23 @@ divPlayers.appendChild(d);
 
 boxes.forEach(cell => {
   cell.addEventListener('click', function handleClick(event) {
-   
     const player = cell.innerHTML;
-  const payload = {
-  "method": "play",
-  "clientId": clientId,
-  "gameId": gameId,
-  "player": player,
-  "cell": cell.id,
-  "wCombo": winningCombo
-}
-
-const payload2 = {
-  "method": 'switchPlayer',
-  "clientId": clientId,
-  "gameId": gameId,
-}
-ws.send(JSON.stringify(payload));
- ws.send(JSON.stringify(payload2));
+    const payload = {
+      "method": "play",
+      "clientId": clientId,
+      "gameId": gameId,
+      "player": player,
+      "cell": cell.id,
+      "wCombo": winningCombo
+    }
+    const payload2 = {
+      "method": 'switchPlayer',
+      "clientId": clientId,
+      "gameId": gameId,
+    }
+    ws.send(JSON.stringify(payload));
+    ws.send(JSON.stringify(payload2));
   });
-
 });
 
 
@@ -498,14 +496,13 @@ window.requestAnimationFrame(update);
 
 let onClick = function(item) {
   console.log("winningC:" , winningCombo)
-let currentPlayer = playerTurn ? player2 : player1
-   item.innerText = currentPlayer;
+  let currentPlayer = playerTurn ? player2 : player1
+  item.innerText = currentPlayer;
 
   for (let i = 0; i < winningCombo.length; i++) {
     for (let k = 0; k < winningCombo[i].length; k++) {
       if(item.id == winningCombo[i][k]) {
         winningCombo[i][k] = currentPlayer;
-         
       }
     }
   // item.removeEventListener('click', onClick)
@@ -546,10 +543,10 @@ function endgame(currentPlayer) {
   } else {
      winner.classList.add('winning-messageO');
   }
-ball.velocity = 0
-ball2.velocity = 0
-VELOCITY_INCREASE = 0
-onClick = null;
+  ball.velocity = 0
+  ball2.velocity = 0
+  VELOCITY_INCREASE = 0
+  onClick = null;
   console.log('game end')
 }
 
@@ -571,29 +568,22 @@ function clearBoard() {
  //ball2.x = Math.random(100)
   
 onClick = function(item) {
- 
-  
-let currentPlayer = playerTurn ? player2 : player1
-   item.innerText = currentPlayer;
+  let currentPlayer = playerTurn ? player2 : player1
+  item.innerText = currentPlayer;
 
   for (let i = 0; i < winningCombo.length; i++) {
     for (let k = 0; k < winningCombo[i].length; k++) {
       if(item.id == winningCombo[i][k]) {
         winningCombo[i][k] = currentPlayer;
-         
       }
     }
- 
-  
   }
 
-if(checkWin(currentPlayer)) {
-    endgame(currentPlayer)
-    } else  {
-     //switchPlayer()
-       
-    }
- 
+  if(checkWin(currentPlayer)) {
+      endgame(currentPlayer)
+  } else  {
+      //switchPlayer() 
+  }
 }
 
 function switchPlayer() {
